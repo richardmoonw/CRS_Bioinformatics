@@ -11,6 +11,7 @@ def findClumps(dna_sequence, k, window_len, t):
     count = 0
     k_mers = {}
 
+    # Add all the k_mers and their indexes to a dictionary.
     for x in range (0, dna_sequence_len - (k-1)):
 
         if dna_sequence[x:x+k] not in k_mers:
@@ -18,11 +19,14 @@ def findClumps(dna_sequence, k, window_len, t):
 
         k_mers[dna_sequence[x:x+k]].append(x)
 
+    # Evaluate all the k_mers present in the dna sequence.
     for key in k_mers:
         
         # If there are more than t repetitions.
         if len(k_mers[key]) >= t:
 
+            # If a given k_mer has appeared more than or 3 times in the dna sequence, then check if its consecutive appearances
+            # fits within a window. If a k_mer has already met this requirement, then continue evaluating the rest of them.
             for x in range(0, len(k_mers[key]) - (t-1)):
 
                 if((k_mers[key][x+(t-1)] + k) - k_mers[key][x] <= window_len):
